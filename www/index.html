@@ -11,24 +11,31 @@ html,body{height:100%;margin:0}
 body{background:radial-gradient(ellipse at center,var(--bg2),var(--bg));color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden}
 [hidden]{display:none!important}
 #app{height:100%;display:flex;flex-direction:column}
-#menu{margin:auto;text-align:center;padding:24px}
-.logo{width:104px;height:104px;margin:0 auto 16px;border-radius:26px;background:linear-gradient(145deg,#1f8a66,#0b3d2e);display:grid;place-items:center;color:var(--gold);font-size:64px;box-shadow:0 10px 30px rgba(0,0,0,.5),inset 0 0 0 3px rgba(242,193,78,.5)}
-h1{margin:0 0 4px;font-size:40px;letter-spacing:4px;color:var(--gold)}
-.sub{opacity:.8;margin-bottom:28px}
-button.b{display:block;width:260px;margin:10px auto;padding:14px;border:0;border-radius:14px;font-size:17px;font-weight:600;background:var(--gold);color:#2a1f00;cursor:pointer;transition:transform .15s}
+#menu,#lobby{margin:auto;text-align:center;padding:20px;width:100%;max-width:340px}
+.logo{width:96px;height:96px;margin:0 auto 12px;border-radius:24px;background:linear-gradient(145deg,#1f8a66,#0b3d2e);display:grid;place-items:center;color:var(--gold);font-size:60px;box-shadow:0 10px 30px rgba(0,0,0,.5),inset 0 0 0 3px rgba(242,193,78,.5)}
+h1{margin:0 0 4px;font-size:38px;letter-spacing:4px;color:var(--gold)}
+.sub{opacity:.8;margin-bottom:18px;font-size:14px}
+button.b{display:block;width:100%;margin:8px 0;padding:13px;border:0;border-radius:14px;font-size:16px;font-weight:600;background:var(--gold);color:#2a1f00;cursor:pointer;transition:transform .15s}
 button.b:active{transform:scale(.96)}
 button.b.g{background:rgba(255,255,255,.14);color:var(--fg)}
+input{width:100%;margin:5px 0;padding:12px;border-radius:12px;border:2px solid rgba(255,255,255,.2);background:rgba(0,0,0,.35);color:var(--fg);font-size:16px;text-align:center}
+.box{margin-top:14px;padding:12px;background:var(--pan);border-radius:16px}
+.row{display:flex;gap:8px}.row input{flex:1}.row button.b{width:90px;margin:5px 0}
+#note{margin-top:12px;font-size:13px;min-height:18px;color:var(--gold)}
+#code{font-size:52px;letter-spacing:10px;font-weight:800;color:var(--gold);margin:6px 0 14px}
+#teams{display:grid;gap:8px;margin-bottom:12px}
 header{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;font-size:13px}
 .sc{background:var(--pan);padding:6px 10px;border-radius:10px;line-height:1.35}
 .chip{background:var(--gold);color:#2a1f00;font-weight:700;padding:6px 12px;border-radius:20px;font-size:15px}
 .chip.r{color:var(--red)}
+#x{background:var(--pan);color:var(--fg);border:0;border-radius:10px;width:34px;height:34px;font-size:16px}
 #table{flex:1;position:relative;min-height:0}
 .seat{position:absolute;font-size:13px;background:var(--pan);padding:4px 10px;border-radius:12px;transition:box-shadow .2s}
 .seat.act{box-shadow:0 0 0 2px var(--gold),0 0 14px var(--gold)}
 .s1{left:6px;top:45%}.s2{left:50%;top:4px;transform:translateX(-50%)}.s3{right:6px;top:45%}
 .slot{position:absolute;transform:translate(-50%,-50%)}
 .p0{left:50%;top:68%}.p1{left:32%;top:45%}.p2{left:50%;top:26%}.p3{left:68%;top:45%}
-#msg{text-align:center;min-height:22px;font-size:14px;padding:4px 12px;opacity:.95}
+#msg{text-align:center;min-height:22px;font-size:14px;padding:4px 12px}
 #hand{display:flex;justify-content:center;padding:6px 8px 14px;min-height:calc(var(--cw)*1.5);--cw:clamp(40px,11.5vw,62px)}
 .card{width:var(--cw,clamp(40px,11.5vw,62px));aspect-ratio:5/7;background:var(--card);border-radius:8px;box-shadow:0 3px 8px rgba(0,0,0,.45);display:flex;flex-direction:column;align-items:flex-start;padding:3px 5px;font-size:calc(var(--cw,50px)*.34);line-height:1;color:var(--blk)}
 .card.r{color:var(--red)}
@@ -45,18 +52,31 @@ header{display:flex;justify-content:space-between;align-items:center;gap:8px;pad
 .panel{background:#10241d;border:2px solid var(--gold);border-radius:20px;padding:22px;text-align:center;max-width:340px;width:100%;animation:deal .3s ease-out}
 .panel h2{margin:0 0 10px;color:var(--gold)}
 .suits{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
-.suits button{font-size:30px;padding:10px 0;border:0;border-radius:12px;background:var(--card);cursor:pointer}
+.suits button{font-size:30px;padding:10px 0;border:0;border-radius:12px;background:var(--card);cursor:pointer;color:var(--blk)}
 .suits .r{color:var(--red)}
 </style></head><body>
 <div id="app">
  <div id="menu">
   <div class="logo">♠</div><h1>MINDI</h1><div class="sub">Mendicot · 4 players · 2 teams</div>
   <button class="b" id="bots">Play with Bots</button>
-  <button class="b g" id="fr">Play with Friends</button>
-  <div id="note" class="sub" style="margin-top:14px;font-size:13px"></div>
+  <div class="box">
+   <input id="nm" placeholder="Your name" maxlength="12" autocomplete="off">
+   <input id="srv" placeholder="Server address" autocomplete="off" autocapitalize="off">
+   <button class="b g" id="cr">Create room</button>
+   <div class="row"><input id="cd" placeholder="CODE" maxlength="4" autocapitalize="characters" autocomplete="off"><button class="b g" id="jn">Join</button></div>
+  </div>
+  <div id="note"></div>
+ </div>
+ <div id="lobby" hidden>
+  <div class="sub">Room code: share it with your friends</div>
+  <div id="code"></div><div id="teams"></div>
+  <button class="b" id="go">Start game (empty seats become bots)</button>
+  <div id="wt" class="sub" hidden>Waiting for the host to start…</div>
+  <button class="b g" onclick="toMenu()">Leave</button>
+  <div class="sub" style="font-size:12px">Players 1 and 3 are partners, 2 and 4 are partners.</div>
  </div>
  <div id="game" hidden style="display:flex;flex-direction:column;flex:1;min-height:0">
-  <header><div class="sc" id="sa"></div><div class="chip" id="tr">Trump ?</div><div class="sc" id="sb"></div></header>
+  <header><div class="sc" id="sa"></div><div class="chip" id="tr">Trump ?</div><div class="sc" id="sb"></div><button id="x" onclick="toMenu()">✕</button></header>
   <div id="table">
    <div class="seat s1" id="n1"></div><div class="seat s2" id="n2"></div><div class="seat s3" id="n3"></div>
    <div class="slot p0"></div><div class="slot p1"></div><div class="slot p2"></div><div class="slot p3"></div>
@@ -65,70 +85,80 @@ header{display:flex;justify-content:space-between;align-items:center;gap:8px;pad
  </div>
  <div id="ov" hidden></div>
 </div>
+<script src="engine.js"></script>
 <script>
-const $=id=>document.getElementById(id),sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const SY=["♠","♥","♦","♣"],NM={11:"J",12:"Q",13:"K",14:"A"},nm=v=>NM[v]||v;
-const NAMES=["You","West","Partner","East"],DIR=[[0,150],[-150,0],[0,-150],[150,0]];
-let H,trump,trick,tens,won,mk,rd=0,tot=[0,0],pick=null;
-const el=(c,x="")=>`<div class="card ${c.s%3==0?"":"r"} ${x}"><b>${nm(c.v)}</b><i>${SY[c.s]}</i></div>`;
+const $=id=>document.getElementById(id);
+const SY=["♠","♥","♦","♣"],NM={11:"J",12:"Q",13:"K",14:"A"},nmv=v=>NM[v]||v,DIR=[[0,150],[-150,0],[0,-150],[150,0]];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const el=(c,x="")=>`<div class="card ${c.s%3==0?"":"r"} ${x}"><b>${nmv(c.v)}</b><i>${SY[c.s]}</i></div>`;
 const srt=a=>a.slice().sort((a,b)=>a.s-b.s||b.v-a.v);
-const say=t=>$("msg").textContent=t;
-function deal(){const d=[];for(let s=0;s<4;s++)for(let v=2;v<=14;v++)d.push({s,v});
- for(let i=51;i>0;i--){const j=Math.random()*(i+1)|0;[d[i],d[j]]=[d[j],d[i]]}
- H=[0,1,2,3].map(p=>d.slice(p*13,p*13+13))}
-function hand(cards,ok){const h=$("hand");h.innerHTML="";cards.forEach((c,i)=>{const t=document.createElement("div");
- t.innerHTML=el(c,(ok?(ok.includes(c)?"ok":"no"):"")+" deal");const e=t.firstChild;e.style.animationDelay=i*35+"ms";
- if(ok&&ok.includes(c))e.onclick=()=>{if(pick){const f=pick;pick=null;f(c)}};h.appendChild(e)})}
-function seats(act){for(let p=1;p<4;p++){const e=$("n"+p);e.textContent=NAMES[p]+" · "+H[p].length;e.classList.toggle("act",act===p)}}
-function score(){const l=t=>`Tens ${tens[t]} · Tricks ${won[t]}`;
- $("sa").innerHTML=`<b>You + Partner</b> (${tot[0]})<br>${l(0)}`;$("sb").innerHTML=`<b>Opponents</b> (${tot[1]})<br>${l(1)}`}
-function clearMid(){document.querySelectorAll(".slot").forEach(s=>s.innerHTML="")}
-function ask(html){return new Promise(r=>{const o=$("ov");o.hidden=false;o.innerHTML=`<div class="panel">${html}</div>`;window.done=v=>{o.hidden=true;r(v)}})}
-function suitBtns(){return `<div class="suits">${SY.map((s,i)=>`<button class="${i%3?"r":""}" onclick="done(${i})">${s}</button>`).join("")}</div>`}
-const beats=(c,d)=>c.s==d.s?c.v>d.v:c.s==trump;
-const winner=()=>trick.reduce((b,x)=>beats(x.c,b.c)?x:b);
-function legal(p){const ls=trick.length?trick[0].c.s:null,h=H[p],m=h.filter(c=>c.s==ls);return m.length?m:h}
-const val=c=>c.v+(c.s==trump?20:0);
-function bot(p){const L=legal(p),lo=a=>a.slice().sort((a,b)=>val(a)-val(b));
- if(!trick.length){const n=L.filter(c=>c.s!=trump&&c.v!=10);return lo(n.length?n:L)[0]}
- const cur=winner(),mate=cur.p%2==p%2,tn=L.filter(c=>c.v==10);
- if(mate){if(trick.length==3&&tn.length)return tn[0];const n=L.filter(c=>c.v!=10);return lo(n.length?n:L)[0]}
- const w=L.filter(c=>beats(c,cur.c));if(w.length)return lo(w)[0];
- const n=L.filter(c=>c.v!=10);return lo(n.length?n:L)[0]}
-function human(){const L=legal(0);hand(srt(H[0]),L);say("Your turn");return new Promise(r=>pick=r)}
-async function round(){
- deal();trick=[];tens=[0,0];won=[0,0];trump=null;mk=rd%4;rd++;
- $("tr").textContent="Trump ?";$("tr").classList.remove("r");clearMid();seats();score();
- const f5=H[mk].slice(0,5);hand(srt(H[0].slice(0,5)));
- let ch;
- if(mk==0){ch=await ask(`<h2>You make trump</h2><p>You can see only your first 5 cards. Pick a suit, or let your 13th card decide.</p>${suitBtns()}<button class="b g" style="width:100%" onclick="done(4)">Use 13th card</button>`)}
- else{say(NAMES[mk]+" is choosing trump…");await sleep(1600);const c=[0,0,0,0];f5.forEach(x=>c[x.s]++);const m=Math.max(...c);ch=m>=3?c.indexOf(m):4}
- trump=ch==4?H[mk][12].s:ch;
- $("tr").textContent="Trump "+SY[trump];$("tr").classList.toggle("r",trump==1||trump==2);
- say(`${NAMES[mk]} chose ${SY[trump]}${ch==4?" (13th card)":""} as trump`);await sleep(1400);
- say("Dealing 4 more…");hand(srt(H[0].slice(0,9)));await sleep(1100);
- hand(srt(H[0]));say("Dealing last 4…");await sleep(1100);
- let lead=mk;
- for(let t=0;t<13;t++){
-  trick=[];
-  for(let i=0;i<4;i++){const p=(lead+i)%4;seats(p);let c;
-   if(p==0)c=await human();else{say(NAMES[p]+" is thinking…");await sleep(700);c=bot(p)}
-   H[p]=H[p].filter(x=>x!==c);trick.push({p,c});
-   const s=document.querySelector(".slot.p"+p);s.innerHTML=el(c,"pc");
-   s.firstChild.style.setProperty("--dx",DIR[p][0]+"px");s.firstChild.style.setProperty("--dy",DIR[p][1]+"px");
-   hand(srt(H[0]));seats(p)}
-  const w=winner();won[w.p%2]++;tens[w.p%2]+=trick.filter(x=>x.c.v==10).length;
-  say(NAMES[w.p]+" wins the trick");score();await sleep(1000);
-  document.querySelectorAll(".slot .card").forEach(e=>{e.style.transform=`translate(${DIR[w.p][0]}px,${DIR[w.p][1]}px) scale(.5)`;e.style.opacity=0});
-  await sleep(500);clearMid();lead=w.p}
- seats();let wt,res;
- for(const t of [0,1]){const o=1-t;
-  if(tens[t]==4){wt=t;res="GAME! All 4 tens"}
-  else if(tens[t]>=3){wt=t;res=tens[t]+" tens"}
-  else if(tens[t]==2&&tens[o]==2&&won[t]>=7){wt=t;res="2 tens and "+won[t]+" tricks"}}
- tot[wt]++;score();
- await ask(`<h2>${wt==0?"You win! 🎉":"Opponents win"}</h2><p>${wt==0?"Your team":"The other team"}: ${res}</p><p>Tens ${tens[0]}–${tens[1]} · Tricks ${won[0]}–${won[1]}</p><button class="b" onclick="done()">Next round</button>`);
- round()}
-$("bots").onclick=()=>{$("menu").hidden=true;$("game").hidden=false;round()};
-$("fr").onclick=()=>$("note").textContent="Online rooms with friends need a game server. Bots mode works now; friends mode is the next build step."
+const st={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
+let S=null,net=null,local=null,ovKey="",handKey="",prevLen=0,swept="";
+const say=t=>$("msg").textContent=t, note=t=>$("note").textContent=t;
+function show(id){for(const i of["menu","lobby","game"])$(i).hidden=i!=id}
+function ov(key,html){if(ovKey==key)return;ovKey=key;const o=$("ov");o.hidden=false;o.innerHTML=`<div class="panel">${html}</div>`}
+function noov(){ovKey="";$("ov").hidden=true}
+function emit(m){if(local)local.act(0,m);else if(net&&net.readyState==1)net.send(JSON.stringify(m))}
+function reset(){handKey="";prevLen=0;swept="";S=null;noov();document.querySelectorAll(".slot").forEach(s=>{s.innerHTML="";s.dataset.k=""})}
+function toMenu(msg){if(local){local.destroy();local=null}if(net){const w=net;net=null;try{w.close()}catch(e){}}reset();show("menu");note(msg||"")}
+function onMsg(m){if(m.t=="err"){note(m.m);if(net&&!S){const w=net;net=null;w.close()}return}if(m.t=="state"){S=m;render()}}
+function normUrl(u){u=u.trim().replace(/\/+$/,"");if(/^wss?:\/\//.test(u))return u;u=u.replace(/^https?:\/\//,"");return(/^(localhost|127\.|192\.168\.|10\.)/.test(u)?"ws://":"wss://")+u}
+function online(first){
+ const name=$("nm").value.trim()||"Player",srv=$("srv").value.trim();
+ if(!srv){note("Enter the server address first");return}
+ st.set("mn",name);st.set("ms",srv);if(net)return;
+ note("Connecting… the free server can take up to a minute to wake up");
+ let ws;try{ws=new WebSocket(normUrl(srv))}catch(e){note("Bad server address");return}
+ ws.onopen=()=>{net=ws;note("");ws.send(JSON.stringify(first(name)))};
+ ws.onmessage=e=>{try{onMsg(JSON.parse(e.data))}catch(x){}};
+ ws.onclose=()=>{if(net===ws){toMenu("Disconnected from the server")}else if(!S)note("Could not connect")};
+ ws.onerror=()=>{if(!S)note("Cannot reach the server")}}
+$("cr").onclick=()=>online(n=>({t:"create",name:n}));
+$("jn").onclick=()=>{const c=$("cd").value.trim().toUpperCase();if(c.length<4){note("Enter the 4-letter room code");return}online(n=>({t:"join",code:c,name:n}))};
+$("go").onclick=()=>emit({t:"start"});
+$("bots").onclick=()=>{reset();local=new Engine.Room((s,m)=>{if(s==0)onMsg(m)});local.code="BOTS";local.join("You");local.act(0,{t:"start"})};
+$("nm").value=st.get("mn")||"";
+$("srv").value=st.get("ms")||((location.protocol=="http:"||(location.protocol=="https:"&&location.hostname!="localhost"))?location.host:"");
+function lobby(){
+ const n=S.names,t=i=>n[i]?esc(n[i]):"waiting…";
+ $("code").textContent=S.code;
+ $("teams").innerHTML=`<div class="sc">Team A<br><b>${t(0)}</b> &amp; <b>${t(2)}</b></div><div class="sc">Team B<br><b>${t(1)}</b> &amp; <b>${t(3)}</b></div>`;
+ $("go").hidden=S.seat!=S.host;$("wt").hidden=S.seat==S.host}
+function drawHand(cards,ok,anim){
+ const h=$("hand");h.innerHTML="";
+ cards.forEach((c,i)=>{const t=document.createElement("div"),g=ok?(ok(c)?"ok":"no"):"";
+  t.innerHTML=el(c,g+(anim?" deal":""));const e=t.firstChild;if(anim)e.style.animationDelay=i*35+"ms";
+  if(ok&&ok(c))e.onclick=()=>emit({t:"play",c:{s:c.s,v:c.v}});h.appendChild(e)})}
+function sweep(r){document.querySelectorAll(".slot .card").forEach(e=>{e.style.transform=`translate(${DIR[r][0]}px,${DIR[r][1]}px) scale(.5)`;e.style.opacity=0})}
+function render(){
+ const s=S;
+ if(s.phase=="lobby"){noov();show("lobby");lobby();return}
+ show("game");
+ const me=s.seat,mt=me%2,rel=p=>(p-me+4)%4,nm=p=>p==me?"You":p==(me+2)%4?"Partner":s.names[p];
+ $("sa").innerHTML=`<b>Us</b> (${s.tot[mt]})<br>Tens ${s.tens[mt]} · Tricks ${s.won[mt]}`;
+ $("sb").innerHTML=`<b>Them</b> (${s.tot[1-mt]})<br>Tens ${s.tens[1-mt]} · Tricks ${s.won[1-mt]}`;
+ const tc=$("tr");
+ if(s.trump==null){tc.textContent="Trump ?";tc.classList.remove("r")}else{tc.textContent="Trump "+SY[s.trump];tc.classList.toggle("r",s.trump==1||s.trump==2)}
+ for(let r=1;r<4;r++){const p=(me+r)%4,e=$("n"+r);e.textContent=nm(p)+" · "+s.counts[p];e.classList.toggle("act",s.turn===p)}
+ const L=s.legal||[],has=c=>L.some(x=>x.s==c.s&&x.v==c.v),hc=srt(s.hand),mine=s.turn===me;
+ const hk=hc.map(c=>c.s+"-"+c.v).join()+(mine?"T":"");
+ if(hk!=handKey){handKey=hk;drawHand(hc,mine?has:null,hc.length>prevLen);prevLen=hc.length}
+ const cur={};s.trick.forEach(x=>cur[rel(x.p)]=x.c);
+ for(let r=0;r<4;r++){
+  const sl=document.querySelector(".slot.p"+r),c=cur[r];
+  if(!c){sl.innerHTML="";sl.dataset.k="";continue}
+  const k=c.s+"-"+c.v;
+  if(sl.dataset.k!=k){sl.dataset.k=k;sl.innerHTML=el(c,"pc");const e=sl.firstChild;e.style.setProperty("--dx",DIR[r][0]+"px");e.style.setProperty("--dy",DIR[r][1]+"px")}}
+ if(s.win!=null&&s.trick.length==4){const k=s.rd+"/"+(s.won[0]+s.won[1]);if(swept!=k){swept=k;setTimeout(()=>sweep(rel(s.win)),850)}}
+ let m="";
+ if(s.phase=="trump")m=s.maker==me?"Choose the trump":nm(s.maker)+" is choosing trump…";
+ else if(s.phase=="deal")m=`${nm(s.maker)} chose ${SY[s.trump]} as trump${s.how?" (13th card)":""}`;
+ else if(s.phase=="play")m=s.win!=null?nm(s.win)+" wins the trick":mine?"Your turn":nm(s.turn)+" is thinking…";
+ say(m);
+ if(s.phase=="trump"&&s.maker==me){
+  ov("t"+s.rd,`<h2>You make trump</h2><p>You can see only your first 5 cards. Pick a suit, or let your 13th card decide.</p><div class="suits">${SY.map((x,i)=>`<button class="${i%3?"r":""}" onclick="emit({t:'trump',v:${i}})">${x}</button>`).join("")}</div><button class="b g" onclick="emit({t:'trump',v:4})">Use my 13th card</button>`)
+ }else if(s.phase=="over"){
+  const w=s.res.wt==mt;
+  ov("o"+s.rd,`<h2>${w?"Your team wins! 🎉":"The other team wins"}</h2><p>${s.res.txt}</p><p>Tens ${s.tens[mt]}–${s.tens[1-mt]} · Tricks ${s.won[mt]}–${s.won[1-mt]}</p>${me==s.host?`<button class="b" onclick="emit({t:'next'})">Next round</button>`:`<p>Waiting for the host…</p>`}`)
+ }else noov()}
 </script></body></html>

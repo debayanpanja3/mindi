@@ -1,3 +1,6 @@
 # Mindi
-Online card game (Mendicot). Web game in `www/`, packaged as an Android APK by GitHub Actions.
-Get the APK: Actions tab -> latest "Build APK" run -> Artifacts -> mindi-apk.
+Online card game (Mendicot).
+- `www/` the game (HTML + engine.js)
+- `server/server.js` online rooms server (no dependencies): `node server/server.js`
+- GitHub Actions builds the Android APK (Actions tab -> Build APK -> Artifacts -> mindi-apk)
+- Render hosts the server (see render.yaml)
